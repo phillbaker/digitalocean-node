@@ -265,6 +265,7 @@ client.droplets
 
 * `client.droplets.list([page, perPage,] [callback])`
 * `client.droplets.list([queryObject,] [callback])`
+* `client.droplets.listByTag(tag.name, [page, perPage,] [callback])`
 * `client.droplets.get(droplet.id, [callback])`
 * `client.droplets.create(attributes, [callback])`
 * `client.droplets.delete(droplet.id, [callback])`
