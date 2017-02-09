@@ -365,6 +365,14 @@ describe('volume endpoints', function() {
       });
     });
 
+    it('deletes the droplet', function() {
+      testUtils.api.delete('/v2/volumes?name=abc&region=nyc1').reply(204, '');
+
+      client.volumes.delete({ name: 'abc', region: 'nyc1' }, function(err) {
+        expect(err).to.be.null;
+      });
+    })
+
     it('escapes the name', function() {
       testUtils.api.delete('/v2/volumes/foo%2Fbar').reply(204, '');
 

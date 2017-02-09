@@ -358,7 +358,7 @@ client.domains
 * `client.domains.createRecord(domain.name, attributes, [callback])`
 * `client.domains.getRecord(domain.name, domainRecord.id, [callback])`
 * `client.domains.deleteRecord(domain.name, domainRecord.id, [callback])`
-* `client.domains.updateRecord(domain.name, domainRecord.id,, attributes, [callback])`
+* `client.domains.updateRecord(domain.name, domainRecord.id, attributes, [callback])`
 
 For the latest valid domain attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#domains). For the latest valid domain record attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#domain-records).
 
