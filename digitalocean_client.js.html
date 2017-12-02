@@ -38,6 +38,7 @@
     Action = require('./action'),
     Domain = require('./domain'),
     Droplet = require('./droplet'),
+    LoadBalancer = require('./load_balancer'),
     Volume = require('./volume'),
     FloatingIp = require('./floating_ip'),
     Image = require('./image'),
@@ -98,6 +99,7 @@
       this.account = new Account(this);
       this.actions = new Action(this);
       this.domains = new Domain(this);
+      this.loadBalancers = new LoadBalancer(this);
       this.volumes = new Volume(this);
       this.floatingIps = new FloatingIp(this);
       this.images = new Image(this);
@@ -141,7 +143,7 @@
     // successRootKeys, required, string or array of strings
     // callback, required, function
     /** @private */
-    Client.prototype._buildrequestPromiseHandler = function(successStatuses, successRootKeys, resolve, reject) {
+    Client.prototype._buildRequestPromiseHandler = function(requestOptions, successStatuses, successRootKeys, resolve, reject) {
       if (typeof successStatuses === 'number') {
         successStatuses = [successStatuses];
       }
@@ -150,6 +152,8 @@
         successRootKeys = [successRootKeys];
       }
 
+      var self = this;
+      var Promise = this.promise;
       return function(err, res, body) {
         if (err) {
           return reject(err);
@@ -190,13 +194,22 @@
           }
         }
 
+        // If body.meta.total exists, then it's a paginated response
+        var result;
+        if (body.meta &amp;&amp; body.meta.total) {
+          result = new util.ListResponse(self, data, body.meta.total, requestOptions, successStatuses, successRootKeys, Promise);
+        } else {
+          result = data;
+        }
+
         // Append response data under a special key in the object
-        data._digitalOcean = {
+        result._digitalOcean = {
           statusCode: res.statusCode,
           body: body,
           headers: res.headers
         };
-        return resolve(data);
+
+        return resolve(result);
       };
     };
 
@@ -213,7 +226,7 @@
       var deferred = new this.promise(function(resolve, reject) {
         self.request(
           requestOptions,
-          self._buildrequestPromiseHandler(successStatuses, successRootKeys, resolve, reject)
+          self._buildRequestPromiseHandler.apply(self, [requestOptions, successStatuses, successRootKeys, resolve, reject])
         );
       });
 
@@ -283,7 +296,9 @@
           method: 'GET',
           headers: {
             'Authorization': 'Bearer ' + this.token
-          }
+          },
+          query: query,
+          path: path,
         },
         options,
         successStatuses,
@@ -390,7 +405,8 @@
   module.exports = function(token, options) {
     return new Client(token, options);
   };
-}).call(this);</code></pre>
+}).call(this);
+</code></pre>
         </article>
     </section>
 
@@ -400,7 +416,7 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Account.html">Account</a></li><li><a href="Action.html">Action</a></li><li><a href="Client.html">Client</a></li><li><a href="Domain.html">Domain</a></li><li><a href="Droplet.html">Droplet</a></li><li><a href="FloatingIp.html">FloatingIp</a></li><li><a href="Image.html">Image</a></li><li><a href="Region.html">Region</a></li><li><a href="Size.html">Size</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Volume.html">Volume</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Account.html">Account</a></li><li><a href="Action.html">Action</a></li><li><a href="Client.html">Client</a></li><li><a href="Domain.html">Domain</a></li><li><a href="Droplet.html">Droplet</a></li><li><a href="FloatingIp.html">FloatingIp</a></li><li><a href="Image.html">Image</a></li><li><a href="ListResponse.html">ListResponse</a></li><li><a href="LoadBalancer.html">LoadBalancer</a></li><li><a href="Region.html">Region</a></li><li><a href="Size.html">Size</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Volume.html">Volume</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">

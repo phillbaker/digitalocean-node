@@ -69,7 +69,18 @@ client.droplets.create(options, callback);
 client.droplets.get(123, callback);
 client.droplets.delete(123, callback);
 client.droplets.powerOff(123, callback);
-client.droplets.getAction(123, 456, callback);</code></pre><h2>Client Options</h2><p>The DigitalOcean client depends on <a href="https://github.com/request/request"><code>request</code></a>, and <a href="https://github.com/request/request#requestoptions-callback">options can be passed through</a> (e.g. a proxy or user agent). For example:</p>
+client.droplets.getAction(123, 456, callback);</code></pre><h3>Spaces support</h3><p><a href="https://developers.digitalocean.com/documentation/spaces/">DigitalOcean's Spaces</a> is an S3-compatible object storage service. The API for spaces is a different schema at a different abstraction level (XML and actual file objects) than the normal &quot;control&quot; API. The good news is that it's interopable with lots of existing S3 clients, <a href="https://github.com/andrewrk/node-s3-client">this is a node one</a>.</p>
+<p>You should be able to use Spaces similarly to:</p>
+<pre class="prettyprint source"><code>var s3 = require('s3');
+
+var client = s3.createClient({
+  s3Options: {
+    accessKeyId: &quot;your spaces key from https://cloud.digitalocean.com/settings/api/tokens&quot;,
+    secretAccessKey: &quot;your spaces secret from https://cloud.digitalocean.com/settings/api/tokens&quot;,
+    region: &quot;nyc3&quot;,
+    endpoint: 'nyc3.digitaloceanspaces.com',
+  },
+});</code></pre><h2>Client Options</h2><p>The DigitalOcean client depends on <a href="https://github.com/request/request"><code>request</code></a>, and <a href="https://github.com/request/request#requestoptions-callback">options can be passed through</a> (e.g. a proxy or user agent). For example:</p>
 <pre class="prettyprint source lang-js"><code>var client = digitalocean.client('TOKEN', {
   request: myInitializedRequestObject,
   requestOptions: {
@@ -99,7 +110,7 @@ client.get('/account', {}, 200, 'account', function (err, status, body, headers)
   console.log(&quot;account: &quot; + account);
   console.log(&quot;headers: &quot; + headers);
   console.log(&quot;response: &quot; + response);
-});</code></pre><h2>Promise result</h2><p>Promise results are the resource(s) returned by a successful response - an array, an individual object, or a blank object (for successful empty responses such as deletes). These objects have a special property, <code>_digitalOcean</code> that includes response information. For example:</p>
+});</code></pre><h2>Promise result</h2><p>Promise results are the resource(s) returned by a successful response - a list response object, an individual object, or a blank object (for successful empty responses such as deletes). These objects have a special property, <code>_digitalOcean</code> that includes response information. For example:</p>
 <pre class="prettyprint source lang-js"><code>// ...
 .then(function(object) {
   console.log(object); // =>
@@ -110,7 +121,51 @@ client.get('/account', {}, 200, 'account', function (err, status, body, headers)
   //     headers: {}
   //   }
   // }
-})</code></pre><h2>Pagination</h2><p>If a function is said to be supporting pagination, then that function can be used in many ways as shown below. Results from the function are arranged in <a href="https://developers.digitalocean.com/documentation/v2/#links">pages</a>.</p>
+})</code></pre><h2>Pagination</h2><h3>Auto pagination</h3><p>Although the DigitalOcean API returns results from query endpoints in <a href="https://developers.digitalocean.com/documentation/v2/#links">pages</a>, this client abstracts that notion by lazily fetching subsequent pages when they are needed. This allows developers to easily handles fetching large lists of resources without having to manually paginate results and perform subsequent requests - adding a layer of convenience on top of what is a common limitation in REST based APIs. An example of using this is:</p>
+<pre class="prettyprint source lang-js"><code>client.droplets.list(function(err, droplets) {
+  if (err) {
+    return console.error('Error fetching pages', err);
+  }
+
+  droplets.all(function(err, droplet) {
+    console.log(err, droplet);
+  });
+
+  var error = iterator.error()
+  if (error) {
+    console.log(error);
+  }
+});</code></pre><p>Note that the magic <code>.length</code> property on <code>ListResponse</code> is tied to the first page of results.</p>
+<pre class="prettyprint source lang-js"><code>client.droplets.list(function(err, droplets) {
+  if (err) {
+    return console.error('Error fetching pages', err);
+  }
+
+  // Limited to original page only:
+  for (var i = 0, len = droplets.length; i &lt; len; i++) {
+    console.log(droplets[i]);
+  }
+});</code></pre><p>Under the hood, this enumeration is handled by an iterator object, this can be accessed as well (it uses promises internally):</p>
+<pre class="prettyprint source lang-js"><code>client.droplets.list(function(err, droplets) {
+  if (err) {
+    return console.error('Error fetching pages', err);
+  }
+
+  var iterator = droplets.iterator();
+  var iterable = iterator.next();
+  while(!iterable.done) {
+    iterable.value.then(function(value) {
+      console.log(value);
+      iterable = iterator.next();
+    });
+  }
+
+  // Check the error afterwards:
+  var error = iterator.error()
+  if (error) {
+    console.log(error);
+  }
+});</code></pre><h3>Pagination parameters</h3><p>If a function declares pagination parameters, then results from the function are arranged in <a href="https://developers.digitalocean.com/documentation/v2/#links">pages</a>. These arguments are:</p>
 <p>The <code>page</code> argument is optional and is used to specify which page of objects to retrieve.
 The <code>perPage</code> argument is also optional and is used to specify how many objects per page.</p>
 <pre class="prettyprint source lang-js"><code>// Normal usage of function
@@ -124,7 +179,7 @@ client.droplets.list(10, callback); // Callback receives an array of 25 issues f
 client.droplets.list({
   page: 2,
   per_page: 100
-}, callback); //array of second 100 issues which are closed</code></pre><p>To fetch all the pages of a resource, the pages must be traversed. For example, to fetch all Droplets:</p>
+}, callback); //array of second 100 issues which are closed</code></pre><h3>Pagination examples</h3><p>To fetch all the pages of a resource, the pages must be traversed. For example, to fetch all Droplets:</p>
 <pre class="prettyprint source lang-js"><code>getAllDroplets(function(allDroplets) {
   console.log(allDroplets.length);
 });
@@ -151,12 +206,12 @@ function getAllDroplets(callback, page, array) {
     if (!err && isLastPage) {
       callback.call(this, array);
     } else if (!err && !isLastPage) {
-      listPagesUntilDone(page + 1, callback, array);
+      getAllDroplets(callback, page + 1, array);
     } else {
       // whoops, try again
-      listPagesUntilDone(page, callback, array);
+      getAllDroplets(callback, page, array);
     }
-  })
+  });
 };</code></pre><p>Or Promise style:</p>
 <pre class="prettyprint source"><code>getAllDroplets().then(function(allDroplets) {
   console.log(allDroplets);
@@ -222,15 +277,15 @@ client.droplets</code></pre><ul>
 <li><code>client.droplets.delete(droplet.id, [callback])</code></li>
 <li><code>client.droplets.deleteByTag(tag.name, [callback])</code></li>
 <li><code>client.droplets.kernels(droplet.id, [page, perPage,] [callback])</code></li>
-<li><code>client.droplets.kernels(droplet.id, [queryObject] [callback])</code></li>
+<li><code>client.droplets.kernels(droplet.id, [queryObject,] [callback])</code></li>
 <li><code>client.droplets.snapshots(droplet.id, [page, perPage,] [callback])</code></li>
-<li><code>client.droplets.snapshots(droplet.id, [queryObject] [callback])</code></li>
+<li><code>client.droplets.snapshots(droplet.id, [queryObject,] [callback])</code></li>
 <li><code>client.droplets.backups(droplet.id, [page, perPage,] [callback])</code></li>
-<li><code>client.droplets.backups(droplet.id, [queryObject] [callback])</code></li>
+<li><code>client.droplets.backups(droplet.id, [queryObject,] [callback])</code></li>
 <li><code>client.droplets.neighbors(droplet.id, [page, perPage,] [callback])</code></li>
-<li><code>client.droplets.neighbors(droplet.id, [queryObject] [callback])</code></li>
+<li><code>client.droplets.neighbors(droplet.id, [queryObject,] [callback])</code></li>
 <li><code>client.droplets.listActions(droplet.id, [page, perPage,] [callback])</code></li>
-<li><code>client.droplets.listActions(droplet.id, [queryObject] [callback])</code></li>
+<li><code>client.droplets.listActions(droplet.id, [queryObject,] [callback])</code></li>
 <li><code>client.droplets.getAction(droplet.id, action.id, [callback])</code></li>
 </ul>
 <p>For the latest valid attributes, <a href="https://developers.digitalocean.com/documentation/v2/#droplets">see the official docs</a>.</p>
@@ -258,7 +313,7 @@ client.droplets</code></pre><ul>
 var client = digitalocean.client('TOKEN');
 client.drives</code></pre><ul>
 <li><code>client.drives.list([page, perPage,] [callback])</code></li>
-<li><code>client.drives.list([queryObject] [callback])</code></li>
+<li><code>client.drives.list([queryObject,] [callback])</code></li>
 </ul>
 <p><a href="https://developers.digitalocean.com/documentation/v2/block-storage-beta/#retrieve-an-existing-block-storage-drive-by-name">See the official docs</a> on different parameters to pass via the query object to filter the drives.</p>
 <ul>
@@ -274,7 +329,7 @@ client.drives</code></pre><ul>
 <li><code>client.drives.attach(drive.id, parametersOrDropletId, [callback])</code></li>
 <li><code>client.drives.detach(drive.id, [callback])</code></li>
 <li><code>client.drives.listActions(drive.id, [page, perPage,] [callback])</code></li>
-<li><code>client.drives.listActions(drive.id, [queryObject] [callback])</code></li>
+<li><code>client.drives.listActions(drive.id, [queryObject,] [callback])</code></li>
 <li><code>client.drives.getAction(drive.id, action.id, [callback])</code></li>
 </ul>
 <h3>Domain resource</h3><pre class="prettyprint source lang-js"><code>var digitalocean = require('digitalocean');
@@ -305,9 +360,8 @@ client.images</code></pre><ul>
 <li><code>client.images.delete(image.id, [callback])</code></li>
 <li><code>client.images.update(image.id, attributes, [callback])</code></li>
 <li><code>client.image.listActions([page, perPage,] image.id, [callback])</code></li>
-<li><code>client.image.listActions([queryObject] image.id, [callback])</code></li>
-<li><code>client.image.getAction([page, perPage,] image.id, action.id, [callback])</code></li>
-<li><code>client.image.getAction([queryObject] image.id, action.id, [callback])</code></li>
+<li><code>client.image.listActions([queryObject,] image.id, [callback])</code></li>
+<li><code>client.image.getAction(image.id, action.id, [callback])</code></li>
 </ul>
 <p>Methods resulting in an <code>action</code>:</p>
 <ul>
@@ -324,12 +378,20 @@ var client = digitalocean.client('TOKEN');
 client.sizes</code></pre><ul>
 <li><code>client.sizes.list([callback])</code></li>
 </ul>
+<h3>Snapshot resource</h3><pre class="prettyprint source lang-js"><code>var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.snapshots</code></pre><ul>
+<li><code>client.snapshots.list([page, perPage,] [callback])</code></li>
+<li><code>client.snapshots.list([queryObject,] [callback])</code></li>
+<li><code>client.snapshots.get(snapshots.id, [callback])</code></li>
+<li><code>client.snapshots.delete(snapshot.id, [callback])</code></li>
+</ul>
 <h3>Account resource</h3><pre class="prettyprint source lang-js"><code>var digitalocean = require('digitalocean');
 var client = digitalocean.client('TOKEN');
 client.account</code></pre><ul>
 <li><code>client.account.get([callback])</code></li>
 <li><code>client.account.listSshKeys([page, perPage,] [callback])</code></li>
-<li><code>client.account.listSshKeys([queryObject] [callback])</code></li>
+<li><code>client.account.listSshKeys([queryObject,] [callback])</code></li>
 <li><code>client.account.createSshKey(attributes, [callback])</code></li>
 <li><code>client.account.getSshKey(sshKey.id, [callback])</code></li>
 <li><code>client.account.deleteSshKey(sshKey.id, [callback])</code></li>
@@ -340,12 +402,12 @@ client.account</code></pre><ul>
 var client = digitalocean.client('TOKEN');
 client.floatingIps</code></pre><ul>
 <li><code>client.floatingIps.list([page, perPage,] [callback])</code></li>
-<li><code>client.floatingIps.list([queryObject] [callback])</code></li>
+<li><code>client.floatingIps.list([queryObject,] [callback])</code></li>
 <li><code>client.floatingIps.get(floatingIp.ip, [callback])</code></li>
 <li><code>client.floatingIps.create(attributes, [callback])</code></li>
 <li><code>client.floatingIps.delete(floatingIp.ip, [callback])</code></li>
 <li><code>client.floatingIps.listActions([page, perPage,] [callback])</code></li>
-<li><code>client.floatingIps.listActions([queryObject] [callback])</code></li>
+<li><code>client.floatingIps.listActions([queryObject,] [callback])</code></li>
 <li><code>client.floatingIps.getAction(floatingIp.ip, [callback])</code></li>
 </ul>
 <p>For the latest valid attributes, <a href="https://developers.digitalocean.com/documentation/v2/#floating-ips">see the official docs</a>.</p>
@@ -358,13 +420,13 @@ client.floatingIps</code></pre><ul>
 var client = digitalocean.client('TOKEN');
 client.volumes</code></pre><ul>
 <li><code>client.volumes.list([page, perPage,] [callback])</code></li>
-<li><code>client.volumes.list([queryObject] [callback])</code></li>
-<li><code>client.volumes.get(floatingIp.ip, [callback])</code></li>
+<li><code>client.volumes.list([queryObject,] [callback])</code></li>
+<li><code>client.volumes.get(volume.id, [callback])</code></li>
 <li><code>client.volumes.create(attributes, [callback])</code></li>
-<li><code>client.volumes.delete(floatingIp.ip, [callback])</code></li>
+<li><code>client.volumes.delete(volume.id, [callback])</code></li>
 <li><code>client.volumes.listActions([page, perPage,] [callback])</code></li>
-<li><code>client.volumes.listActions([queryObject] [callback])</code></li>
-<li><code>client.volumes.getAction(floatingIp.ip, [callback])</code></li>
+<li><code>client.volumes.listActions([queryObject,] [callback])</code></li>
+<li><code>client.volumes.getAction(volume.id, action.id, [callback])</code></li>
 </ul>
 <p>For the latest valid attributes, <a href="https://developers.digitalocean.com/documentation/v2/#volumes">see the official docs</a>.</p>
 <p>Methods resulting in an <code>action</code>:</p>
@@ -377,7 +439,7 @@ client.volumes</code></pre><ul>
 var client = digitalocean.client('TOKEN');
 client.tags</code></pre><ul>
 <li><code>client.tags.list([page, perPage,] [callback])</code></li>
-<li><code>client.tags.list([queryObject] [callback])</code></li>
+<li><code>client.tags.list([queryObject,] [callback])</code></li>
 <li><code>client.tags.get(tag.name, [callback])</code></li>
 <li><code>client.tags.create(attributes, [callback])</code></li>
 <li><code>client.tags.update(tag.name, attributes, [callback])</code></li>
@@ -406,7 +468,7 @@ client.tags</code></pre><ul>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Account.html">Account</a></li><li><a href="Action.html">Action</a></li><li><a href="Client.html">Client</a></li><li><a href="Domain.html">Domain</a></li><li><a href="Droplet.html">Droplet</a></li><li><a href="FloatingIp.html">FloatingIp</a></li><li><a href="Image.html">Image</a></li><li><a href="Region.html">Region</a></li><li><a href="Size.html">Size</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Volume.html">Volume</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Account.html">Account</a></li><li><a href="Action.html">Action</a></li><li><a href="Client.html">Client</a></li><li><a href="Domain.html">Domain</a></li><li><a href="Droplet.html">Droplet</a></li><li><a href="FloatingIp.html">FloatingIp</a></li><li><a href="Image.html">Image</a></li><li><a href="ListResponse.html">ListResponse</a></li><li><a href="LoadBalancer.html">LoadBalancer</a></li><li><a href="Region.html">Region</a></li><li><a href="Size.html">Size</a></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Volume.html">Volume</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">

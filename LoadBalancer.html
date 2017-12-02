@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Domain</title>
+    <title>JSDoc: Class: LoadBalancer</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Domain</h1>
+    <h1 class="page-title">Class: LoadBalancer</h1>
 
     
 
@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2>Domain</h2>
+        <h2>LoadBalancer</h2>
         
     
 </header>
@@ -40,14 +40,14 @@
 
     
 
-    <h4 class="name" id="Domain"><span class="type-signature"></span>new Domain<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="LoadBalancer"><span class="type-signature"></span>new LoadBalancer<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Domain resource
+    LoadBalancer resource
 </div>
 
 
@@ -91,7 +91,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="digitalocean_domain.js.html">digitalocean/domain.js</a>, <a href="digitalocean_domain.js.html#line5">line 5</a>
+        <a href="digitalocean_load_balancer.js.html">digitalocean/load_balancer.js</a>, <a href="digitalocean_load_balancer.js.html#line5">line 5</a>
     </li></ul></dd>
     
 
@@ -140,6 +140,214 @@
 
     
 
+    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(loadBalancerId, parametersOrIds, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Create a forwarding rule object in a load balancer.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>loadBalancerId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The id of the load balancer for which to add a resource</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parametersOrIds</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+|
+
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Array of ids of objects to add to the load balancer. Otherwise, an object with required key of `droplet_ids`. See the <a href="https://developers.digitalocean.com/documentation/v2/#">official docs</a> for valid attributes.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#requestCallback">requestCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">callback that handles the response</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="digitalocean_load_balancer.js.html">digitalocean/load_balancer.js</a>, <a href="digitalocean_load_balancer.js.html#line83">line 83</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="create"><span class="type-signature"></span>create<span class="signature">(attributes, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
@@ -147,7 +355,7 @@
 
 
 <div class="description">
-    Create a domain object.
+    Create a load balancer object.
 </div>
 
 
@@ -209,7 +417,7 @@
 
             
 
-            <td class="description last">The attributes with which to create the domain. See the <a href="https://developers.digitalocean.com/documentation/v2/#domains">official docs</a> for valid attributes.</td>
+            <td class="description last">The attributes with which to create the load balancer. See the <a href="https://developers.digitalocean.com/documentation/v2/#load_balancers">official docs</a> for valid attributes.</td>
         </tr>
 
     
@@ -283,7 +491,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="digitalocean_domain.js.html">digitalocean/domain.js</a>, <a href="digitalocean_domain.js.html#line34">line 34</a>
+        <a href="digitalocean_load_balancer.js.html">digitalocean/load_balancer.js</a>, <a href="digitalocean_load_balancer.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -314,14 +522,14 @@
 
     
 
-    <h4 class="name" id="createRecord"><span class="type-signature"></span>createRecord<span class="signature">(domainName, attributes, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="createForwardingRules"><span class="type-signature"></span>createForwardingRules<span class="signature">(loadBalancerId, parametersOrRules, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Create a record object in a domain.
+    Create a forwarding rule object in a load balancer.
 </div>
 
 
@@ -359,7 +567,7 @@
 
         <tr>
             
-                <td class="name"><code>domainName</code></td>
+                <td class="name"><code>loadBalancerId</code></td>
             
 
             <td class="type">
@@ -383,19 +591,22 @@
 
             
 
-            <td class="description last">The name of the domain for which to create a record</td>
+            <td class="description last">The name of the load balancer for which to create a record</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>attributes</code></td>
+                <td class="name"><code>parametersOrRules</code></td>
             
 
             <td class="type">
             
                 
+<span class="param-type">array</span>
+|
+
 <span class="param-type">object</span>
 
 
@@ -414,7 +625,7 @@
 
             
 
-            <td class="description last">The attributes with which to create the domain record. See the <a href="https://developers.digitalocean.com/documentation/v2/#domain-records">official docs</a> for valid attributes.</td>
+            <td class="description last">Array of rules to create on the load balancer. Otherwise, an object with required key of `forwarding_rules`. See the https://developers.digitalocean.com/documentation/v2/#load-balancers|official docs} for valid attributes.</td>
         </tr>
 
     
@@ -488,7 +699,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="digitalocean_domain.js.html">digitalocean/domain.js</a>, <a href="digitalocean_domain.js.html#line99">line 99</a>
+        <a href="digitalocean_load_balancer.js.html">digitalocean/load_balancer.js</a>, <a href="digitalocean_load_balancer.js.html#line129">line 129</a>
     </li></ul></dd>
     
 
@@ -519,14 +730,14 @@
 
     
 
-    <h4 class="name" id="delete"><span class="type-signature"></span>delete<span class="signature">(name, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="delete"><span class="type-signature"></span>delete<span class="signature">(id, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Delete the identified domain object.
+    Delete the identified load balancer object.
 </div>
 
 
@@ -560,211 +771,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The name of the domain to delete</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#requestCallback">requestCallback</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">callback that handles the response</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="digitalocean_domain.js.html">digitalocean/domain.js</a>, <a href="digitalocean_domain.js.html#line57">line 57</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="deleteRecord"><span class="type-signature"></span>deleteRecord<span class="signature">(domainName, id, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Delete the identified domain record object.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>domainName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The name of the domain for which to delete a record</td>
-        </tr>
-
     
 
         <tr>
@@ -775,7 +781,7 @@
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -793,7 +799,7 @@
 
             
 
-            <td class="description last">The id of the domain record to retrieve</td>
+            <td class="description last">The id of the load balancer to delete</td>
         </tr>
 
     
@@ -867,7 +873,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="digitalocean_domain.js.html">digitalocean/domain.js</a>, <a href="digitalocean_domain.js.html#line126">line 126</a>
+        <a href="digitalocean_load_balancer.js.html">digitalocean/load_balancer.js</a>, <a href="digitalocean_load_balancer.js.html#line70">line 70</a>
     </li></ul></dd>
     
 
@@ -898,14 +904,14 @@
 
     
 
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(name, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="deleteForwardingRules"><span class="type-signature"></span>deleteForwardingRules<span class="signature">(loadBalancerId, parametersOrRules, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Get the identified domain object.
+    Delete the identified load balancer forwarding rule object.
 </div>
 
 
@@ -943,7 +949,7 @@
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>loadBalancerId</code></td>
             
 
             <td class="type">
@@ -967,7 +973,41 @@
 
             
 
-            <td class="description last">The name of the domain to retrieve</td>
+            <td class="description last">The name of the load balancer for which to delete a record</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parametersOrRules</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+|
+
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Array of rules on the load balancer to delete. Otherwise, an object with required key of `forwarding_rules`. See the https://developers.digitalocean.com/documentation/v2/#load-balancers|official docs} for valid attributes.</td>
         </tr>
 
     
@@ -1041,7 +1081,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="digitalocean_domain.js.html">digitalocean/domain.js</a>, <a href="digitalocean_domain.js.html#line45">line 45</a>
+        <a href="digitalocean_load_balancer.js.html">digitalocean/load_balancer.js</a>, <a href="digitalocean_load_balancer.js.html#line152">line 152</a>
     </li></ul></dd>
     
 
@@ -1072,14 +1112,14 @@
 
     
 
-    <h4 class="name" id="getRecord"><span class="type-signature"></span>getRecord<span class="signature">(domainName, id, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(id, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Get the identified domain record object.
+    Get the identified load balancer object.
 </div>
 
 
@@ -1113,37 +1153,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>domainName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The name of the domain for which to retrieve a record</td>
-        </tr>
-
     
 
         <tr>
@@ -1154,7 +1163,7 @@
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -1172,7 +1181,7 @@
 
             
 
-            <td class="description last">The id of the domain record to retrieve</td>
+            <td class="description last">The id of the load balancer to retrieve</td>
         </tr>
 
     
@@ -1246,7 +1255,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="digitalocean_domain.js.html">digitalocean/domain.js</a>, <a href="digitalocean_domain.js.html#line86">line 86</a>
+        <a href="digitalocean_load_balancer.js.html">digitalocean/load_balancer.js</a>, <a href="digitalocean_load_balancer.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -1284,7 +1293,7 @@
 
 
 <div class="description">
-    List domain objects.
+    List load balancer objects.
 </div>
 
 
@@ -1458,7 +1467,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="digitalocean_domain.js.html">digitalocean/domain.js</a>, <a href="digitalocean_domain.js.html#line22">line 22</a>
+        <a href="digitalocean_load_balancer.js.html">digitalocean/load_balancer.js</a>, <a href="digitalocean_load_balancer.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -1489,14 +1498,14 @@
 
     
 
-    <h4 class="name" id="listRecords"><span class="type-signature"></span>listRecords<span class="signature">(domainName, page or queryObject<span class="signature-attributes">opt</span>, perPage<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(loadBalancerId, parametersOrIds, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    List domain record objects.
+    Remove the specified IDs from the load balancer.
 </div>
 
 
@@ -1534,7 +1543,7 @@
 
         <tr>
             
-                <td class="name"><code>domainName</code></td>
+                <td class="name"><code>loadBalancerId</code></td>
             
 
             <td class="type">
@@ -1558,20 +1567,20 @@
 
             
 
-            <td class="description last">name of domain for which to retrieve records</td>
+            <td class="description last">The name of the load balancer for which to remove a resource</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>page or queryObject</code></td>
+                <td class="name"><code>parametersOrIds</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">array</span>
 |
 
 <span class="param-type">object</span>
@@ -1583,8 +1592,6 @@
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
-                
 
                 
 
@@ -1594,276 +1601,7 @@
 
             
 
-            <td class="description last">page number to retrieve or key value pairs of query parameters</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>perPage</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">number of result per page to retrieve</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#listRequestCallback">listRequestCallback</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">callback that handles the response</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="digitalocean_domain.js.html">digitalocean/domain.js</a>, <a href="digitalocean_domain.js.html#line71">line 71</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="updateRecord"><span class="type-signature"></span>updateRecord<span class="signature">(domainName, id, attributes, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Update the identified record object in a domain.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>domainName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The name of the domain for which to update the record</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The id of the domain record to retrieve</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>attributes</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The attributes with which to update the domain record. See the <a href="https://developers.digitalocean.com/documentation/v2/#domain-records">official docs</a> for valid attributes.</td>
+            <td class="description last">Array of ids of objects to add to the load balancer. Otherwise, an object with required key of `droplet_ids`. See the <a href="https://developers.digitalocean.com/documentation/v2/#">official docs</a> for valid attributes.</td>
         </tr>
 
     
@@ -1937,7 +1675,212 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="digitalocean_domain.js.html">digitalocean/domain.js</a>, <a href="digitalocean_domain.js.html#line113">line 113</a>
+        <a href="digitalocean_load_balancer.js.html">digitalocean/load_balancer.js</a>, <a href="digitalocean_load_balancer.js.html#line106">line 106</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">(id, attributes, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Update a load balancer object.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The id of the load balancer to retrieve</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>attributes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The attributes with which to update the load balancer. See the <a href="https://developers.digitalocean.com/documentation/v2/#load_balancers">official docs</a> for valid attributes.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#requestCallback">requestCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">callback that handles the response</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="digitalocean_load_balancer.js.html">digitalocean/load_balancer.js</a>, <a href="digitalocean_load_balancer.js.html#line46">line 46</a>
     </li></ul></dd>
     
 
