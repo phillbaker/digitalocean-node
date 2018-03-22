@@ -595,6 +595,21 @@ client.tags
 
 For the latest valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#tags).
 
+### Certificate resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.certificates
+```
+
+* `client.certificates.list([page, perPage], [callback])`
+* `client.certificates.list([queryObject], [callback])`
+* `client.certificates.get(certificate.id, [callback])`
+* `client.certificates.create(attributes, [callback])`
+* `client.certificates.delete(certificate.id, [callback])`
+
+For the latest valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#certificates).
+
 ## Contributing
 
 1. Fork it ( https://github.com/phillbaker/digitalocean-node/fork )
