@@ -444,7 +444,7 @@ client.domains
 * `client.domains.createRecord(domain.name, attributes, [callback])`
 * `client.domains.getRecord(domain.name, domainRecord.id, [callback])`
 * `client.domains.deleteRecord(domain.name, domainRecord.id, [callback])`
-* `client.domains.updateRecord(domain.name, domainRecord.id,, attributes, [callback])`
+* `client.domains.updateRecord(domain.name, domainRecord.id, attributes, [callback])`
 
 For the latest valid domain attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#domains). For the latest valid domain record attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#domain-records).
 
@@ -561,9 +561,9 @@ client.volumes
 
 * `client.volumes.list([page, perPage,] [callback])`
 * `client.volumes.list([queryObject,] [callback])`
-* `client.volumes.get(volume.id, [callback])`
+* `client.volumes.get(parametersOrId, [callback])`
 * `client.volumes.create(attributes, [callback])`
-* `client.volumes.delete(volume.id, [callback])`
+* `client.volumes.delete(parametersOrId, [callback])`
 * `client.volumes.listActions([page, perPage,] [callback])`
 * `client.volumes.listActions([queryObject,] [callback])`
 * `client.volumes.getAction(volume.id, action.id, [callback])`
