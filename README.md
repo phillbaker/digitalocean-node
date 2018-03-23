@@ -61,8 +61,7 @@ client.droplets.getAction(123, 456, callback);
 [DigitalOcean's Spaces](https://developers.digitalocean.com/documentation/spaces/) is an S3-compatible object storage service. The API for spaces is a different schema at a different abstraction level (XML and actual file objects) than the normal "control" API. The good news is that it's interopable with lots of existing S3 clients, [this is a node one](https://github.com/andrewrk/node-s3-client).
 
 You should be able to use Spaces similarly to:
-
-```
+```js
 var s3 = require('s3');
 
 var client = s3.createClient({
@@ -273,8 +272,7 @@ function getAllDroplets(callback, page, array) {
 ```
 
 Or Promise style:
-
-```
+```js
 getAllDroplets().then(function(allDroplets) {
   console.log(allDroplets);
 }).catch(function(err) {
