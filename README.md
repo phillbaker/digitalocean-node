@@ -325,9 +325,7 @@ client.droplets.list(function (err, account, headers, response) {
 ```
 
 ## Usage in the Browser
-
 This library is also available as a single file built for usage in the browser at `dist/digitalocean.js`. It uses [browserify](http://browserify.org/) to package all dependencies and output the built file. This file is updated and released to [Bower](https://bower.io) for each release with the same version.
-
 
 For example, using the built file at `dist/digitalocean.js`:
 ```html
@@ -346,18 +344,119 @@ For example, using the built file at `dist/digitalocean.js`:
 </html>
 ```
 
-## All Resources and Actions
 
-*Where you see `attributes` it is a plain JavaScript object, e.g. `{ email: 'foo@example.com' }`*
+## All Resources and Actions
+The following resources and actions correspond to the resources and actions documented on [DigitalOcean's API](https://developers.digitalocean.com/documentation/v2). Some methods take an `attributes` argument, which is a plain JavaScript object, e.g. `{ email: 'foo@example.com' }`, whose keys and appropriate values are also documented in DigitalOcean's API documentation.
+
+### Account resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.account
+```
+* `client.account.get([callback])`
+* `client.account.listSshKeys([page, perPage], [callback])`
+* `client.account.listSshKeys([queryObject], [callback])`
+* `client.account.createSshKey(attributes, [callback])`
+* `client.account.getSshKey(sshKey.id, [callback])`
+* `client.account.deleteSshKey(sshKey.id, [callback])`
+* `client.account.updateSshKey(sshKey.id, attributes, [callback])`
+
+For the latest valid account attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#ssh-keys).
+
+### Action resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.actions
+```
+* `client.actions.list([page, perPage], [callback])`
+* `client.actions.get([queryObject], [callback])`
+* `client.actions.get(action.id, [callback])`
+
+### Block Storage/Volume resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.volumes
+```
+* `client.volumes.list([page, perPage], [callback])`
+* `client.volumes.list([queryObject], [callback])`
+* `client.volumes.get(volume.id, [callback])`
+* `client.volumes.create(attributes, [callback])`
+* `client.volumes.delete(volume.id, [callback])`
+* `client.volumes.listActions([page, perPage], [callback])`
+* `client.volumes.listActions([queryObject], [callback])`
+* `client.volumes.getAction(volume.id, action.id, [callback])`
+
+Methods resulting in an `action`:
+* `client.volumes.attach(volume.id, parametersOrDropletId, [callback])`
+* `client.volumes.detach(volume.id, [callback])`
+* `client.volumes.resize(volume.id, parametersOrSizeGibabytes, region, [callback])`
+
+For the latest valid volume attributes and action parameters, [see the official docs](https://developers.digitalocean.com/documentation/v2/#volumes).
+
+### Certificate resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.certificates
+```
+* `client.certificates.list([page, perPage], [callback])`
+* `client.certificates.list([queryObject], [callback])`
+* `client.certificates.get(certificate.id, [callback])`
+* `client.certificates.create(attributes, [callback])`
+* `client.certificates.delete(certificate.id, [callback])`
+
+For the latest valid certificate attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#certificates).
+
+### Domain resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.domains
+```
+* `client.domains.list([page, perPage,] [callback])`
+* `client.domains.list([queryObject,] [callback])`
+* `client.domains.create(attributes, [callback])`
+* `client.domains.get(domain.name, [callback])`
+* `client.domains.delete(domain.name, [callback])`
+* `client.domains.listRecords([page, perPage,] domain.name, [callback])`
+* `client.domains.listRecords([queryObject,] domain.name, [callback])`
+* `client.domains.createRecord(domain.name, attributes, [callback])`
+* `client.domains.getRecord(domain.name, domainRecord.id, [callback])`
+* `client.domains.deleteRecord(domain.name, domainRecord.id, [callback])`
+* `client.domains.updateRecord(domain.name, domainRecord.id,, attributes, [callback])`
+
+For the latest valid domain attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#domains). For the latest valid domain record attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#domain-records).
+
+### Drive resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.drives
+```
+* `client.drives.list([page, perPage], [callback])`
+* `client.drives.list([queryObject], [callback])`
+* `client.drives.get(tag.name, [callback])`
+* `client.drives.create(attributes, [callback])`
+* `client.drives.delete(tag.name, [callback])`
+
+Methods resulting in an `action`:
+* `client.drives.attach(drive.id, parametersOrDropletId, [callback])`
+* `client.drives.detach(drive.id, [callback])`
+* `client.drives.listActions(drive.id, [page, perPage], [callback])`
+* `client.drives.listActions(drive.id, [queryObject], [callback])`
+* `client.drives.getAction(drive.id, action.id, [callback])`
+
+[See the official docs](https://developers.digitalocean.com/documentation/v2/block-storage-beta/#retrieve-an-existing-block-storage-drive-by-name) on different parameters to pass via the query object to filter the drives. For the latest valid drive attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/block-storage-beta/#create-a-new-block-storage-drive).
 
 ### Droplet resource
-
 ```js
 var digitalocean = require('digitalocean');
 var client = digitalocean.client('TOKEN');
 client.droplets
 ```
-
 * `client.droplets.list([page, perPage,] [callback])`
 * `client.droplets.list([queryObject,] [callback])`
 * `client.droplets.get(droplet.id, [callback])`
@@ -376,10 +475,7 @@ client.droplets
 * `client.droplets.listActions(droplet.id, [queryObject,] [callback])`
 * `client.droplets.getAction(droplet.id, action.id, [callback])`
 
-For the latest valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#droplets).
-
 Methods resulting in an `action`:
-
 * `client.droplets.actionByTag(tag.name, actionType, [callback])`
 * `client.droplets.reboot(droplet.id, [callback])`
 * `client.droplets.powerCycle(droplet.id, [callback])`
@@ -398,220 +494,134 @@ Methods resulting in an `action`:
 * `client.droplets.restore(droplet.id, parametersOrImageId, [callback])`
 * `client.droplets.resize(droplet.id, parametersOrSizeSlug, [callback])`
 
-### Drive resource
-
-```js
-var digitalocean = require('digitalocean');
-var client = digitalocean.client('TOKEN');
-client.drives
-```
-
-* `client.drives.list([page, perPage,] [callback])`
-* `client.drives.list([queryObject,] [callback])`
-
-[See the official docs](https://developers.digitalocean.com/documentation/v2/block-storage-beta/#retrieve-an-existing-block-storage-drive-by-name) on different parameters to pass via the query object to filter the drives.
-
-* `client.drives.get(tag.name, [callback])`
-* `client.drives.create(attributes, [callback])`
-
-For the latest valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/block-storage-beta/#create-a-new-block-storage-drive).
-
-* `client.drives.delete(tag.name, [callback])`
-
-Methods resulting in an `action`:
-
-* `client.drives.attach(drive.id, parametersOrDropletId, [callback])`
-* `client.drives.detach(drive.id, [callback])`
-* `client.drives.listActions(drive.id, [page, perPage,] [callback])`
-* `client.drives.listActions(drive.id, [queryObject,] [callback])`
-* `client.drives.getAction(drive.id, action.id, [callback])`
-
-### Domain resource
-
-```js
-var digitalocean = require('digitalocean');
-var client = digitalocean.client('TOKEN');
-client.domains
-```
-
-* `client.domains.list([page, perPage,] [callback])`
-* `client.domains.list([queryObject,] [callback])`
-* `client.domains.create(attributes, [callback])`
-* `client.domains.get(domain.name, [callback])`
-* `client.domains.delete(domain.name, [callback])`
-* `client.domains.listRecords([page, perPage,] domain.name, [callback])`
-* `client.domains.listRecords([queryObject,] domain.name, [callback])`
-* `client.domains.createRecord(domain.name, attributes, [callback])`
-* `client.domains.getRecord(domain.name, domainRecord.id, [callback])`
-* `client.domains.deleteRecord(domain.name, domainRecord.id, [callback])`
-* `client.domains.updateRecord(domain.name, domainRecord.id,, attributes, [callback])`
-
-For the latest valid domain attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#domains). For the latest valid domain record attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#domain-records).
-
-
-### Image resource
-
-```js
-var digitalocean = require('digitalocean');
-var client = digitalocean.client('TOKEN');
-client.images
-```
-
-* `client.images.list([page, perPage,] [callback])`
-* `client.images.list([queryObject,] [callback])`
-
-[See the official docs](https://developers.digitalocean.com/documentation/v2/#list-all-distribution-images) on different parameters to pass via the query object to filter the images.
-
-* `client.images.get(image.id, [callback])`
-* `client.images.delete(image.id, [callback])`
-* `client.images.update(image.id, attributes, [callback])`
-* `client.image.listActions([page, perPage,] image.id, [callback])`
-* `client.image.listActions([queryObject,] image.id, [callback])`
-* `client.image.getAction(image.id, action.id, [callback])`
-
-Methods resulting in an `action`:
-
-* `client.image.transfer(image.id, parametersOrRegionSlug, [callback])`
-* `client.image.convert(image.id, [callback])`
-
-
-### Region resource
-
-```js
-var digitalocean = require('digitalocean');
-var client = digitalocean.client('TOKEN');
-client.regions
-```
-
-* `client.regions.list([callback])`
-
-
-### Size resource
-
-```js
-var digitalocean = require('digitalocean');
-var client = digitalocean.client('TOKEN');
-client.sizes
-```
-
-* `client.sizes.list([callback])`
-
-### Snapshot resource
-
-```js
-var digitalocean = require('digitalocean');
-var client = digitalocean.client('TOKEN');
-client.snapshots
-```
-
-* `client.snapshots.list([page, perPage,] [callback])`
-* `client.snapshots.list([queryObject,] [callback])`
-* `client.snapshots.get(snapshots.id, [callback])`
-* `client.snapshots.delete(snapshot.id, [callback])`
-
-### Account resource
-
-```js
-var digitalocean = require('digitalocean');
-var client = digitalocean.client('TOKEN');
-client.account
-```
-
-* `client.account.get([callback])`
-* `client.account.listSshKeys([page, perPage,] [callback])`
-* `client.account.listSshKeys([queryObject,] [callback])`
-* `client.account.createSshKey(attributes, [callback])`
-* `client.account.getSshKey(sshKey.id, [callback])`
-* `client.account.deleteSshKey(sshKey.id, [callback])`
-* `client.account.updateSshKey(sshKey.id, attributes, [callback])`
-
-For the latest ssh key valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#ssh-keys).
+For the latest valid droplet attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#droplets). For the latest valid droplet action parameters, [see the official docs](https://developers.digitalocean.com/documentation/v2/#droplet-actions).
 
 ### Floating IP resource
-
 ```js
 var digitalocean = require('digitalocean');
 var client = digitalocean.client('TOKEN');
 client.floatingIps
 ```
-
-* `client.floatingIps.list([page, perPage,] [callback])`
-* `client.floatingIps.list([queryObject,] [callback])`
+* `client.floatingIps.list([page, perPage], [callback])`
+* `client.floatingIps.list([queryObject], [callback])`
 * `client.floatingIps.get(floatingIp.ip, [callback])`
 * `client.floatingIps.create(attributes, [callback])`
 * `client.floatingIps.delete(floatingIp.ip, [callback])`
-* `client.floatingIps.listActions([page, perPage,] [callback])`
-* `client.floatingIps.listActions([queryObject,] [callback])`
+* `client.floatingIps.listActions([page, perPage], [callback])`
+* `client.floatingIps.listActions([queryObject], [callback])`
 * `client.floatingIps.getAction(floatingIp.ip, [callback])`
 
-For the latest valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#floating-ips).
-
 Methods resulting in an `action`:
-
 * `client.floatingIps.assign(floatingIp.ip, parametersOrDropletId, [callback])`
 * `client.floatingIps.unassign(floatingIp.ip, [callback])`
 
-### Volume resource
+For the latest valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#floating-ips).
 
+### Firewall resource
 ```js
 var digitalocean = require('digitalocean');
 var client = digitalocean.client('TOKEN');
-client.volumes
+client.floatingIps
 ```
+* `client.firewalls.list([page, perPage], [callback])`
+* `client.firewalls.list([queryObject], [callback])`
+* `client.firewalls.get(firewall.id, [callback])`
+* `client.firewalls.create(attributes, [callback])`
+* `client.firewalls.delete(firewall.id, [callback])`
+* `client.firewalls.update(firewall.id, attributes, [callback])`
+* `client.firewalls.addDroplets(firewall.id, dropletIds, [callback])`
+* `client.firewalls.removeDroplets(firewall.id, dropletIds, [callback])`
+* `client.firewalls.addTags(firewall.id, tags, [callback])`
+* `client.firewalls.removeTags(firewall.id, tags, [callback])`
+* `client.firewalls.addRules(firewall.id, rules, [callback])`
+* `client.firewalls.removeRules(firewall.id, rules, [callback])`
 
-* `client.volumes.list([page, perPage,] [callback])`
-* `client.volumes.list([queryObject,] [callback])`
-* `client.volumes.get(volume.id, [callback])`
-* `client.volumes.create(attributes, [callback])`
-* `client.volumes.delete(volume.id, [callback])`
-* `client.volumes.listActions([page, perPage,] [callback])`
-* `client.volumes.listActions([queryObject,] [callback])`
-* `client.volumes.getAction(volume.id, action.id, [callback])`
-
-For the latest valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#volumes).
+### Image resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.images
+```
+* `client.images.list([page, perPage], [callback])`
+* `client.images.list([queryObject], [callback])`
+* `client.images.get(image.id, [callback])`
+* `client.images.delete(image.id, [callback])`
+* `client.images.update(image.id, attributes, [callback])`
+* `client.images.listActions([page, perPage], image.id, [callback])`
+* `client.images.listActions([queryObject], image.id, [callback])`
+* `client.images.getAction(image.id, action.id, [callback])`
 
 Methods resulting in an `action`:
+* `client.images.transfer(image.id, parametersOrRegionSlug, [callback])`
+* `client.images.convert(image.id, [callback])`
 
-* `client.volumes.attach(volume.id, parametersOrDropletId, [callback])`
-* `client.volumes.detach(volume.id, [callback])`
-* `client.volumes.resize(volume.id, parametersOrSizeGibabytes, region, [callback])`
+For the latest valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#images).
+
+### Load Balancer resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.loadBalancers
+```
+* `client.loadBalancers.list([page, perPage], [callback])`
+* `client.loadBalancers.list([queryObject], [callback])`
+* `client.loadBalancers.get(loadBalancer.id, [callback])`
+* `client.loadBalancers.update(loadBalancer.id, attributes, [callback])`
+* `client.loadBalancers.delete(loadBalancer.id, [callback])`
+* `client.loadBalancers.add(loadBalancer.id, parametersOrIds, [callback])`
+* `client.loadBalancers.remove(loadBalancer.id, parametersOrIds, [callback])`
+* `client.loadBalancers.createForwardingRules(loadBalancer.id, parametersOrRules, [callback])`
+* `client.loadBalancers.deleteForwardingRules(loadBalancer.id, parametersOrRules, [callback])`
+
+For the latest valid attributes and parameters, [see the official docs](https://developers.digitalocean.com/documentation/v2/#load-balancers).
+
+### Region resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.regions
+```
+* `client.regions.list([page, perPage], [callback])`
+* `client.regions.list([queryObject], [callback])`
+
+### Size resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.sizes
+```
+* `client.sizes.list([page, perPage], [callback])`
+* `client.sizes.list([queryObject], [callback])`
+
+### Snapshot resource
+```js
+var digitalocean = require('digitalocean');
+var client = digitalocean.client('TOKEN');
+client.snapshots
+```
+* `client.snapshots.list([page, perPage], [callback])`
+* `client.snapshots.list([queryObject], [callback])`
+* `client.snapshots.get(snapshots.id, [callback])`
+* `client.snapshots.delete(snapshot.id, [callback])`
 
 ### Tag resource
-
 ```js
 var digitalocean = require('digitalocean');
 var client = digitalocean.client('TOKEN');
 client.tags
 ```
-
-* `client.tags.list([page, perPage,] [callback])`
-* `client.tags.list([queryObject,] [callback])`
+* `client.tags.list([page, perPage], [callback])`
+* `client.tags.list([queryObject], [callback])`
 * `client.tags.get(tag.name, [callback])`
 * `client.tags.create(attributes, [callback])`
 * `client.tags.update(tag.name, attributes, [callback])`
-* `client.tags.tag(tag.name, [{resource_id: , resource_type: }], [callback])`
-* `client.tags.untag(tag.name, [{resource_id: , resource_type: }], [callback])`
+* `client.tags.tag(tag.name, [resources], [callback])`
+* `client.tags.untag(tag.name, [resources], [callback])`
 * `client.tags.delete(tag.name, [callback])`
 
 For the latest valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#tags).
 
-### Certificate resource
-```js
-var digitalocean = require('digitalocean');
-var client = digitalocean.client('TOKEN');
-client.certificates
-```
-
-* `client.certificates.list([page, perPage], [callback])`
-* `client.certificates.list([queryObject], [callback])`
-* `client.certificates.get(certificate.id, [callback])`
-* `client.certificates.create(attributes, [callback])`
-* `client.certificates.delete(certificate.id, [callback])`
-
-For the latest valid attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#certificates).
-
 ## Contributing
-
 1. Fork it ( https://github.com/phillbaker/digitalocean-node/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
@@ -619,23 +629,18 @@ For the latest valid attributes, [see the official docs](https://developers.digi
 5. Create new Pull Request
 
 ## Testing
-
 ```
 npm test
 ```
 
 ## Releasing
-
 Run:
-
 ```sh
 npm run release:patch # or release:minor or release:major depending on the type of version bump
 ```
 
 ## License
-
 MIT
 
 ## Inspiration
-
 Based on the work of @pksunkara in [octonode](https://github.com/pksunkara/octonode).
