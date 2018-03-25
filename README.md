@@ -428,27 +428,6 @@ client.domains
 
 For the latest valid domain attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#domains). For the latest valid domain record attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/#domain-records).
 
-### Drive resource
-```js
-var digitalocean = require('digitalocean');
-var client = digitalocean.client('TOKEN');
-client.drives
-```
-* `client.drives.list([page, perPage], [callback])`
-* `client.drives.list([queryObject], [callback])`
-* `client.drives.get(tag.name, [callback])`
-* `client.drives.create(attributes, [callback])`
-* `client.drives.delete(tag.name, [callback])`
-
-Methods resulting in an `action`:
-* `client.drives.attach(drive.id, parametersOrDropletId, [callback])`
-* `client.drives.detach(drive.id, [callback])`
-* `client.drives.listActions(drive.id, [page, perPage], [callback])`
-* `client.drives.listActions(drive.id, [queryObject], [callback])`
-* `client.drives.getAction(drive.id, action.id, [callback])`
-
-[See the official docs](https://developers.digitalocean.com/documentation/v2/block-storage-beta/#retrieve-an-existing-block-storage-drive-by-name) on different parameters to pass via the query object to filter the drives. For the latest valid drive attributes, [see the official docs](https://developers.digitalocean.com/documentation/v2/block-storage-beta/#create-a-new-block-storage-drive).
-
 ### Droplet resource
 ```js
 var digitalocean = require('digitalocean');
