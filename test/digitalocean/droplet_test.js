@@ -876,7 +876,7 @@ describe('droplet endpoints', function() {
 
   describe('deleteByTag', function() {
     it('deletes the droplet', function() {
-      testUtils.api.delete('/v2/droplets', { tag_name: 'awesome' }).reply(204, '');
+      testUtils.api.delete('/v2/droplets').query({ tag_name: 'awesome' }).reply(204, '');
 
       client.droplets.deleteByTag('awesome', function(err) {
         expect(err).to.be.null;
@@ -884,7 +884,7 @@ describe('droplet endpoints', function() {
     });
 
     it('returns a promisable', function(done) {
-      testUtils.api.delete('/v2/droplets', { tag_name: 'awesome' }).reply(204, '');
+      testUtils.api.delete('/v2/droplets').query({ tag_name: 'awesome' }).reply(204, '');
 
       client.droplets.deleteByTag('awesome').then(function(droplet) {
         expect(droplet.id).to.be.undefined
