@@ -281,23 +281,21 @@ getAllDroplets().then(function(allDroplets) {
 
 function getAllDroplets() {
   var allDroplets = [];
-
+ 
   function getDropletPage(page) {
     if (page == null) {
       page = 1;
     }
-
+ 
     return client.droplets.list(page)
-      .each(function(droplet) {
-        allDroplets.push(droplet);
-      })
       .then(function(droplets) {
-        var links = droplets._digitalocean.body.links;
+        droplets.forEach(droplet => allDroplets.push(droplet));
+        var links = droplets._digitalOcean.body.links;
         var isLastPage = links && (
           !links.pages ||
             (links.pages && links.pages.last === undefined)
         );
-
+ 
         if (isLastPage) {
           return allDroplets;
         } else {
@@ -305,7 +303,7 @@ function getAllDroplets() {
         }
       });
   }
-
+ 
   return getDropletPage();
 }
 ```
