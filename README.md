@@ -281,12 +281,12 @@ getAllDroplets().then(function(allDroplets) {
 
 function getAllDroplets() {
   var allDroplets = [];
- 
+
   function getDropletPage(page) {
     if (page == null) {
       page = 1;
     }
- 
+
     return client.droplets.list(page)
       .then(function(droplets) {
         droplets.forEach(droplet => allDroplets.push(droplet));
@@ -295,7 +295,7 @@ function getAllDroplets() {
           !links.pages ||
             (links.pages && links.pages.last === undefined)
         );
- 
+
         if (isLastPage) {
           return allDroplets;
         } else {
@@ -303,7 +303,7 @@ function getAllDroplets() {
         }
       });
   }
- 
+
   return getDropletPage();
 }
 ```
